@@ -116,6 +116,7 @@ class MediaPlayerGroup(MediaPlayerEntity):
 
         self._entities = entities
         self._features: dict[str, set[str]] = {
+            KEY_ANNOUNCE: set(),
             KEY_CLEAR_PLAYLIST: set(),
             KEY_ON_OFF: set(),
             KEY_PAUSE_PLAY_STOP: set(),
