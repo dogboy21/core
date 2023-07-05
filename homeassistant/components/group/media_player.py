@@ -50,6 +50,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType, EventType
 
+KEY_ANNOUNCE = "announce"
 KEY_CLEAR_PLAYLIST = "clear_playlist"
 KEY_ON_OFF = "on_off"
 KEY_PAUSE_PLAY_STOP = "play"
@@ -192,6 +193,10 @@ class MediaPlayerGroup(MediaPlayerEntity):
             self._features[KEY_VOLUME].add(entity_id)
         else:
             self._features[KEY_VOLUME].discard(entity_id)
+        if new_features & MediaPlayerEntityFeature.MEDIA_ANNOUNCE:
+            self._features[KEY_ANNOUNCE].add(entity_id)
+        else:
+            self._features[KEY_ANNOUNCE].discard(entity_id)
 
     async def async_added_to_hass(self) -> None:
         """Register listeners."""
@@ -434,6 +439,8 @@ class MediaPlayerGroup(MediaPlayerEntity):
                 | MediaPlayerEntityFeature.VOLUME_SET
                 | MediaPlayerEntityFeature.VOLUME_STEP
             )
+        if self._features[KEY_ANNOUNCE]:
+            supported_features |= MediaPlayerEntityFeature.MEDIA_ANNOUNCE
 
         self._attr_supported_features = supported_features
         self.async_write_ha_state()
