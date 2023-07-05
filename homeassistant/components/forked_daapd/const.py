@@ -82,6 +82,7 @@ SUPPORTED_FEATURES = (
     | MediaPlayerEntityFeature.TURN_OFF
     | MediaPlayerEntityFeature.PLAY_MEDIA
     | MediaPlayerEntityFeature.BROWSE_MEDIA
+    | MediaPlayerEntityFeature.MEDIA_ANNOUNCE
 )
 SUPPORTED_FEATURES_ZONE = (
     MediaPlayerEntityFeature.VOLUME_SET
