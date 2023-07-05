@@ -243,26 +243,31 @@ async def test_unsupported_methods(hass: HomeAssistant) -> None:
     await hass.async_block_till_done()
     assert vacuum.is_on(hass, ENTITY_VACUUM_COMPLETE)
 
-    await common.async_pause(hass, ENTITY_VACUUM_COMPLETE)
+    with pytest.raises(AttributeError):
+        await common.async_pause(hass, ENTITY_VACUUM_COMPLETE)
     assert vacuum.is_on(hass, ENTITY_VACUUM_COMPLETE)
 
     hass.states.async_set(ENTITY_VACUUM_COMPLETE, STATE_OFF)
     await hass.async_block_till_done()
     assert not vacuum.is_on(hass, ENTITY_VACUUM_COMPLETE)
 
-    await common.async_start(hass, ENTITY_VACUUM_COMPLETE)
+    with pytest.raises(AttributeError):
+        await common.async_start(hass, ENTITY_VACUUM_COMPLETE)
     assert not vacuum.is_on(hass, ENTITY_VACUUM_COMPLETE)
 
     # StateVacuumEntity does not support on/off
-    await common.async_turn_on(hass, entity_id=ENTITY_VACUUM_STATE)
+    with pytest.raises(AttributeError):
+        await common.async_turn_on(hass, entity_id=ENTITY_VACUUM_STATE)
     state = hass.states.get(ENTITY_VACUUM_STATE)
     assert state.state != STATE_CLEANING
 
-    await common.async_turn_off(hass, entity_id=ENTITY_VACUUM_STATE)
+    with pytest.raises(AttributeError):
+        await common.async_turn_off(hass, entity_id=ENTITY_VACUUM_STATE)
     state = hass.states.get(ENTITY_VACUUM_STATE)
     assert state.state != STATE_RETURNING
 
-    await common.async_toggle(hass, entity_id=ENTITY_VACUUM_STATE)
+    with pytest.raises(AttributeError):
+        await common.async_toggle(hass, entity_id=ENTITY_VACUUM_STATE)
     state = hass.states.get(ENTITY_VACUUM_STATE)
     assert state.state != STATE_CLEANING
 
